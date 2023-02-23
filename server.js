@@ -1,12 +1,17 @@
 const express = require("express");
-const path = require("path");
+const db = require("./config/connection");
+
+const PORT = process.env.PORT || 3001;
 const app = express();
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.use(express.static("public"));
+const allRoutes = require("./controllers");
+app.use("/", allRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => console.log(`Listening at http://localhost:PORT`));
+db.once("open", () => {
+  app.listen(PORT, () => {
+    console.log(`API server running on http://localhost:${PORT}`);
+  });
+});
