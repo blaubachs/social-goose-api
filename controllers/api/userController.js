@@ -28,8 +28,17 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// New user
 router.post("/", async (req, res) => {
-  // New user
+  try {
+    const createNewUser = await User.create({
+      username: req.body.username,
+      email: req.body.email,
+    });
+    res.json(createNewUser);
+  } catch (err) {
+    res.status(500).json({ msg: "an error occurred", err });
+  }
 });
 
 router.put("/:id", async (req, res) => {
