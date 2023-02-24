@@ -41,12 +41,36 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Update one user by id
 router.put("/:id", async (req, res) => {
-  // Update one user by id
+  try {
+    const findAndUpdate = await User.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $set: { username: req.body.username, email: req.body.email } }
+    );
+    if (!findAndUpdate) {
+      res.status(404).json({ msg: "no such user" });
+    } else {
+      res.json(findAndUpdate);
+    }
+  } catch (err) {
+    res.status(500).json({ msg: "an error occurred", err });
+  }
 });
 
+// Delete a user by id
 router.delete("/:id", async (req, res) => {
-  // Delete a user by id
+  try {
+    const deleteOneUser = await User.findByIdAndDelete(req.params.id);
+
+    if (!deleteOneUser) {
+      res.status(404).json({ msg: "no such user" });
+    } else {
+      res.json(deleteOneUser);
+    }
+  } catch (err) {
+    res.status(500).json({ msg: "an error occurred", err });
+  }
 });
 
 module.exports = router;
