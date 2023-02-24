@@ -27,11 +27,16 @@ router.post("/", async (req, res) => {
     const findOneUser = await User.findOne({
       username: req.body.username,
     });
+    if (!findOneUser) {
+      return res.status(404).json({ msg: "no such user" });
+    }
     let userThoughtArr = findOneUser.thoughts;
     userThoughtArr.push(newThought);
     res.json(findOneUser);
   } else {
-    rex.status(404).json({ msg: "no such user" });
+    return res
+      .status(500)
+      .json({ msg: "an error occurred while creating a thought" });
   }
 });
 
