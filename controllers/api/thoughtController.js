@@ -1,12 +1,20 @@
 const express = require("express");
+const { User, Thoughts } = require("../../models");
 const router = express.Router();
 
+// Return all thoughts
 router.get("/", async (req, res) => {
-  // Return all thoughts
+  const foundThoughts = await Thoughts.find();
+
+  res.json(foundThoughts);
 });
 
+// Return one thought
 router.get("/:id", async (req, res) => {
-  // Return one thought
+  const foundThought = await Thoughts.findOne({
+    _id: req.params.id,
+  });
+  res.json(foundThought);
 });
 
 router.post("/", async (req, res) => {

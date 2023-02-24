@@ -19,7 +19,7 @@ connection.once("open", async () => {
     },
   ];
 
-  await Thoughts.insertMany(userOneThoughts);
+  const userOneData = await Thoughts.insertMany(userOneThoughts);
 
   let userTwoThoughts = [
     {
@@ -32,18 +32,18 @@ connection.once("open", async () => {
     },
   ];
 
-  await Thoughts.insertMany(userTwoThoughts);
+  const userTwoData = await Thoughts.insertMany(userTwoThoughts);
 
   let userData = [
     {
       username: "bingus",
       email: "bingus@bingus.gov",
-      thoughts: userOneThoughts,
+      thoughts: userOneData,
     },
     {
       username: "notBingus",
       email: "email@email.com",
-      thoughts: userTwoThoughts,
+      thoughts: userTwoData,
     },
     {
       username: "yahoo",
@@ -55,4 +55,6 @@ connection.once("open", async () => {
   await User.collection.insertMany(userData);
 
   console.log("Seeded  data into users");
+
+  process.exit(1);
 });
