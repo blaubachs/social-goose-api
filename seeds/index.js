@@ -8,16 +8,42 @@ connection.once("open", async () => {
   await Thoughts.deleteMany({});
   // Seed data...
 
+  let userOneThoughts = [
+    {
+      thoughtText: "This is bingus's first thought",
+      username: "bingus",
+    },
+    {
+      thoughtText: "Bingus's second thought",
+      username: "bingus",
+    },
+  ];
+
+  await Thoughts.insertMany(userOneThoughts);
+
+  let userTwoThoughts = [
+    {
+      thoughtText: "I'm not bingus, what do you mean?",
+      username: "notBingus",
+    },
+    {
+      thoughtText: "Bingus's second thought, I mean, not bingus, haha",
+      username: "notBingus",
+    },
+  ];
+
+  await Thoughts.insertMany(userTwoThoughts);
+
   let userData = [
     {
       username: "bingus",
       email: "bingus@bingus.gov",
-      thoughts: [],
+      thoughts: userOneThoughts,
     },
     {
       username: "notBingus",
       email: "email@email.com",
-      thoughts: [],
+      thoughts: userTwoThoughts,
     },
     {
       username: "yahoo",
