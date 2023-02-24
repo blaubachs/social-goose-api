@@ -7,7 +7,10 @@ function checkEmail(email) {
 
 const reactionSchema = new mongoose.Schema(
   {
-    reactionId: { type: ObjectId, default: new ObjectId() },
+    reactionId: {
+      type: String,
+      default: new mongoose.Types.ObjectId().toString(),
+    },
     reactionBody: { type: String, required: true, maxLength: 280 },
     username: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
@@ -46,7 +49,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate: [checkEmail(email), "Please enter a valid email address."],
+    validate: [checkEmail, "Please enter a valid email address."],
   },
   thoughts: [thoughtSchema],
 });
