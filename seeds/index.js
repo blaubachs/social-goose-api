@@ -12,14 +12,17 @@ connection.once("open", async () => {
     {
       username: "bingus",
       email: "bingus@bingus.gov",
+      thoughts: [],
     },
     {
       username: "notBingus",
       email: "email@email.com",
+      thoughts: [],
     },
     {
       username: "yahoo",
       email: "yahoo@yahoo.yahoo",
+      thoughts: [],
     },
   ];
 
