@@ -22,4 +22,12 @@ router.delete("/:id", async (req, res) => {
   // Delete a thought by id
 });
 
+router.post("/:id/reactions", async (req, res) => {
+  // Create a reaction stored in a single thoughts reaction array field
+});
+
+router.delete("/:id/reactions", async (req, res) => {
+  // Delete a reaction based on the reactions id value
+});
+
 module.exports = router;
