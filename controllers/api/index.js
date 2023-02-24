@@ -8,4 +8,7 @@ router.get("/", async (req, res) => {
 const thoughtRoutes = require("./thoughtController");
 router.use("/thoughts", thoughtRoutes);
 
+const userRoutes = require("./userController");
+router.use("/users", userRoutes);
+
 module.exports = router;

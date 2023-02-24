@@ -16,10 +16,23 @@ router.get("/:id", async (req, res) => {
   });
   res.json(foundThought);
 });
-
+// Create a new thought. Note from assignment reqs:
+// don't forget to push the created thought's _id to the associated user's thoughts array field
 router.post("/", async (req, res) => {
-  // Create a new thought. Note from assignment reqs:
-  // don't forget to push the created thought's _id to the associated user's thoughts array field
+  const newThought = await Thoughts.create({
+    thoughtText: req.body.thoughtText,
+    username: req.body.username,
+  });
+  if (newThought) {
+    const findOneUser = await User.findOne({
+      username: req.body.username,
+    });
+    let userThoughtArr = findOneUser.thoughts;
+    userThoughtArr.push(newThought);
+    res.json(findOneUser);
+  } else {
+    rex.status(404).json({ msg: "no such user" });
+  }
 });
 
 router.put("/:id", async (req, res) => {
