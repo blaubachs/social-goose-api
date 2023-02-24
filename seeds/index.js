@@ -1,4 +1,5 @@
 // run seeds here, will have to seed users and their respective thoughts
+const { json } = require("express");
 const connection = require("../config/connection");
 const { User, Thoughts } = require("../models");
 
@@ -12,10 +13,26 @@ connection.once("open", async () => {
     {
       thoughtText: "This is bingus's first thought",
       username: "bingus",
+      reactions: [
+        {
+          reactionBody: "This is a reaction",
+          username: "notBingus",
+        },
+        {
+          reactionBody: "Super reaction",
+          username: "bingus",
+        },
+      ],
     },
     {
       thoughtText: "Bingus's second thought",
       username: "bingus",
+      reactions: [
+        {
+          reactionBody: "WHOOOOAAAA reaction!!!!!",
+          username: "yahoo",
+        },
+      ],
     },
   ];
 
@@ -25,6 +42,16 @@ connection.once("open", async () => {
     {
       thoughtText: "I'm not bingus, what do you mean?",
       username: "notBingus",
+      reactions: [
+        {
+          reactionBody: "Hey, you sound like you're bingus...",
+          username: "yahoo",
+        },
+        {
+          reactionBody: "Nope! Definitely not bingus!1",
+          username: "notBingus",
+        },
+      ],
     },
     {
       thoughtText: "Bingus's second thought, I mean, not bingus, haha",
