@@ -5,9 +5,17 @@ function checkEmail(email) {
   return regexEmailChecker.test(email);
 }
 
+const reactionSchema = new mongoose.Schema({
+  reactionId: { type: ObjectId, default: new ObjectId() },
+  reactionBody: { type: String, required: true, maxLength: 280 },
+  username: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
 const thoughtSchema = new mongoose.Schema(
   {
     thoughtText: { type: String, required: true, minLength: 1, maxLength: 280 },
+    username: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   {
@@ -18,6 +26,10 @@ const thoughtSchema = new mongoose.Schema(
 );
 
 thoughtSchema.virtual("formattedTime").get(function () {
+  return this.createdAt.toLocaleString();
+});
+
+reactionSchema.virtual("formattedTime").get(function () {
   return this.createdAt.toLocaleString();
 });
 
