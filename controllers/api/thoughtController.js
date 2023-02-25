@@ -24,7 +24,6 @@ router.get("/:id", async (req, res) => {
     } else {
       res.json(foundThought);
     }
-    res.json(foundThought);
   } catch (err) {
     res.status(500).json({ msg: "an error occurred", err });
   }
@@ -61,7 +60,7 @@ router.post("/", async (req, res) => {
 // Update a thought by id
 router.put("/:id", async (req, res) => {
   try {
-    const findOneAndUpdate = Thoughts.findByIdAndUpdate(
+    const findOneAndUpdate = await Thoughts.findByIdAndUpdate(
       { _id: req.params.id },
       {
         $set: {
@@ -86,7 +85,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const deleteOneThought = await Thoughts.findByIdAndDelete(req.params.id);
 
-    if (!deleteOnethought) {
+    if (!deleteOneThought) {
       res.status(404).json({ msg: "no such thought" });
     } else {
       res.json(deleteOneThought);
@@ -96,12 +95,38 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.post("/:id/reactions", async (req, res) => {
-  // Create a reaction stored in a single thoughts reaction array field
+// Create a reaction stored in a single thoughts reaction array field
+router.post("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const foundThought = await Thoughts.findById(req.params.thoughtId);
+    if (!foundThought) {
+      res.status(404).json({ msg: "no such thought" });
+    } else {
+      let reactionArr = foundThought.reactions;
+      let newReaction = {
+        reactionBody: req.body.reactionBody,
+        username: req.body.username,
+      };
+      await reactionArr.push(newReaction);
+      res.json(foundThought);
+    }
+  } catch (err) {
+    res.status(500).json({ msg: "an error occurred", err });
+  }
 });
 
-router.delete("/:id/reactions", async (req, res) => {
-  // Delete a reaction based on the reactions id value
+// Delete a reaction based on the reactions id value
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
+  try {
+    const foundThought = await Thoughts.findByIdAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { _id: req.params.reactionId } } }
+    );
+
+    res.json(foundThought);
+  } catch (err) {
+    res.status(500).json({ msg: "an error occurred", err });
+  }
 });
 
 module.exports = router;
